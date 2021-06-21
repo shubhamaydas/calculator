@@ -3,7 +3,8 @@ import java.util.Stack;
 public class Calculator {
     public float calculate(String expression) {
         {
-            char[] tokens = expression.replace(" ", "").toCharArray();
+            char[] tokens = expression.replace(" ", "")
+                    .toCharArray();
             Stack<Float> values = new
                     Stack<>();
             Stack<Operator> operatorStack = new
@@ -30,6 +31,7 @@ public class Calculator {
 
                     operatorStack.push(currentOperator);
                 }
+
                 else {
                     throw new IllegalArgumentException("Invalid input string");
                 }

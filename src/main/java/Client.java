@@ -7,6 +7,7 @@ public class Client
         String expression = scanner.nextLine();
         Calculator calculator = new Calculator();
         try {
+
             System.out.println(calculator.
                     calculate(expression));
         }catch (IllegalArgumentException illegalArgumentException){
