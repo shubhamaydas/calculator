@@ -1,6 +1,7 @@
+package service;
+
 import org.junit.Assert;
 import org.junit.Test;
-import service.Tokenizer;
 
 public class TokenizerTest {
     @Test

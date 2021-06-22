@@ -1,5 +1,5 @@
-import operator.AdditionOperator;
-import operator.Operator;
+package operator;
+
 import org.junit.Assert;
 import org.junit.Test;
 

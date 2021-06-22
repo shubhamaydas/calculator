@@ -1,3 +1,5 @@
+package operator;
+
 import operator.DivisionOperator;
 import operator.Operator;
 import org.junit.Assert;

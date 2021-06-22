@@ -1,6 +1,7 @@
+package service;
+
 import org.junit.Assert;
 import org.junit.Test;
-import service.Calculator;
 
 public class CalculatorTest {
     @Test

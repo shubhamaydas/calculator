@@ -29,9 +29,7 @@ public class Calculator {
                 {
                     Operator currentOperator =  tokenizer.getNextOperator(tokens, position);
                     while (!operatorStack.empty() && hasPrecedence(currentOperator, operatorStack.peek())) {
-                        float firstValue = values.pop();
-                        float secondValue = values.pop();
-                        values.push(operatorStack.pop().operate(secondValue, firstValue));
+                        values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
                     }
 
                     operatorStack.push(currentOperator);
@@ -43,15 +41,16 @@ public class Calculator {
             }
 
             while (!operatorStack.empty()){
-                float firstValue = values.pop();
-                float secondValue = values.pop();
-                values.push(operatorStack.pop().operate(secondValue, firstValue));
+                values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
             }
 
             return values.pop();
         }
     }
 
+    private float compute(Operator operator, float firstOperand, float secondOperand){
+        return operator.operate(secondOperand, firstOperand);
+    }
     private boolean hasPrecedence(Operator currentOperator , Operator operatorInStack){
         if(currentOperator.getPrecedence() == 1 && operatorInStack.getPrecedence() == 2)
             return false;
