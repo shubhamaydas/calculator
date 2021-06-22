@@ -1,3 +1,5 @@
+import operator.Operator;
+import operator.SubtractionOperator;
 import org.junit.Assert;
 import org.junit.Test;
 

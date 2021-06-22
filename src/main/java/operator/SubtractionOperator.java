@@ -1,4 +1,8 @@
-public class SubtractionOperator implements Operator{
+package operator;
+
+import operator.Operator;
+
+public class SubtractionOperator implements Operator {
 
     @Override
     public  int getPrecedence(){

@@ -1,4 +1,8 @@
-public class DivisionOperator implements Operator{
+package operator;
+
+import operator.Operator;
+
+public class DivisionOperator implements Operator {
     @Override
     public  int getPrecedence(){
         return 1;

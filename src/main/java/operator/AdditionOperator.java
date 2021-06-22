@@ -1,3 +1,7 @@
+package operator;
+
+import operator.Operator;
+
 public class AdditionOperator implements Operator {
 
     @Override

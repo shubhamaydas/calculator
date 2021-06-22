@@ -1,4 +1,8 @@
-public class MultiplicationOperator implements Operator{
+package operator;
+
+import operator.Operator;
+
+public class MultiplicationOperator implements Operator {
     @Override
     public  int getPrecedence(){
         return 1;
