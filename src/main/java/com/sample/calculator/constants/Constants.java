@@ -1,4 +1,4 @@
-package constants;
+package com.sample.calculator.constants;
 
 public final class Constants {
     public static final char ADD = '+';

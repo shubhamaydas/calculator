@@ -1,9 +1,9 @@
-import service.Calculator;
+package com.sample.calculator;
+
+import com.sample.calculator.service.Calculator;
 
 public class EvaluateExpression {
-
     public float getResult(String expression){
-
         Calculator calculator = new Calculator();
         while (expression.indexOf(')')!=-1) {
             int closing_braces = expression.indexOf(')');
