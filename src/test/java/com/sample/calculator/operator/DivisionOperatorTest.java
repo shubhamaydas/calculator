@@ -1,7 +1,5 @@
-package operator;
+package com.sample.calculator.operator;
 
-import operator.DivisionOperator;
-import operator.Operator;
 import org.junit.Assert;
 import org.junit.Test;
 

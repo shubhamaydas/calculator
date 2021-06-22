@@ -1,4 +1,4 @@
-package service;
+package com.sample.calculator.service;
 
 import org.junit.Assert;
 import org.junit.Test;

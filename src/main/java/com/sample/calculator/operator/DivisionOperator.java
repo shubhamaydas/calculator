@@ -1,6 +1,4 @@
-package operator;
-
-import operator.Operator;
+package com.sample.calculator.operator;
 
 public class DivisionOperator implements Operator {
     @Override

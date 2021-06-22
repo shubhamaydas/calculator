@@ -1,7 +1,6 @@
-package service;
+package com.sample.calculator.service;
 
-import operator.Operator;
-import service.Tokenizer;
+import com.sample.calculator.operator.Operator;
 
 import java.util.Stack;
 

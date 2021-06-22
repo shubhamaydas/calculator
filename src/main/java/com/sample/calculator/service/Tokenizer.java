@@ -1,7 +1,7 @@
-package service;
+package com.sample.calculator.service;
 
-import operator.*;
-import constants.*;
+import com.sample.calculator.operator.*;
+import com.sample.calculator.constants.*;
 
 public class Tokenizer {
     public String getNextFloatNumber(char[] remainingExpression, int position) {
