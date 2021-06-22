@@ -19,19 +19,12 @@ public class Calculator {
             {
                 if(tokenizer.isCharPartOfNumber(tokens[position]))
                 {
-                    String result = tokenizer.getNextFloatNumber(tokens, position);
-                    values.push(Float.parseFloat(result));
-                    position = position + result.length() - 1;
+                    position = getNumberAndPushToValueQueue(tokens, values, tokenizer, position);
                 }
 
                 else if (tokenizer.isCharAnOperator(tokens[position]))
                 {
-                    Operator currentOperator =  tokenizer.getNextOperator(tokens, position);
-                    while (!operatorStack.empty() && hasPrecedence(currentOperator, operatorStack.peek())) {
-                        values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
-                    }
-
-                    operatorStack.push(currentOperator);
+                    processOperatorQueue(tokens, values, operatorStack, tokenizer, position);
                 }
 
                 else {
@@ -45,6 +38,22 @@ public class Calculator {
 
             return values.pop();
         }
+    }
+
+    private int getNumberAndPushToValueQueue(char[] tokens, Stack<Float> values, Tokenizer tokenizer, int position) {
+        String result = tokenizer.getNextFloatNumber(tokens, position);
+        values.push(Float.parseFloat(result));
+        position = position + result.length() - 1;
+        return position;
+    }
+
+    private void processOperatorQueue(char[] tokens, Stack<Float> values, Stack<Operator> operatorStack, Tokenizer tokenizer, int position) {
+        Operator currentOperator = tokenizer.getNextOperator(tokens, position);
+        while (!operatorStack.empty() && hasPrecedence(currentOperator, operatorStack.peek())) {
+            values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
+        }
+
+        operatorStack.push(currentOperator);
     }
 
     private float compute(Operator operator, float firstOperand, float secondOperand){
