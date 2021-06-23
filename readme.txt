@@ -1,6 +1,6 @@
 Calculator App
 
-This is a command line java project to evaluate a basic expression
+This is a command line java project to evaluate a basic java expression
 
 step1:
 
