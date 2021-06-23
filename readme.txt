@@ -14,4 +14,4 @@ step3:
 
 gradlew build
 
-gradle run
+gradlew run
