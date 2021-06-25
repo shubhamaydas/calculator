@@ -3,8 +3,33 @@ package com.sample.calculator.service;
 import com.sample.calculator.operator.*;
 import com.sample.calculator.constants.*;
 
+import java.util.ArrayList;
+
 public class Tokenizer {
-    public String getNextFloatNumber(char[] remainingExpression, int position) {
+    public ArrayList<Term> getArrayListOfTokens(String expression){
+        ArrayList<Term> arrayList = new ArrayList<>();
+        char[] tokens = expression.replace(" ", "")
+                .toCharArray();
+        for (int position = 0; position < tokens.length; position++)
+        {
+            if(isCharPartOfNumber(tokens[position]))
+            {
+                String result = getNextFloatNumber(tokens, position);
+                Term operand = new Operand(Float.parseFloat(result));
+                arrayList.add(operand);
+                position = position + result.length() - 1;
+            }
+
+            else if (isCharAnOperator(tokens[position]))
+            {
+                Term currentOperator = getNextOperator(tokens, position);
+                arrayList.add(currentOperator);
+            }
+        }
+        return arrayList;
+    }
+
+    private String getNextFloatNumber(char[] remainingExpression, int position) {
             StringBuffer stringBuffer = new
                     StringBuffer();
 
@@ -16,30 +41,20 @@ public class Tokenizer {
 
             return stringBuffer.toString();
     }
-    public Operator getNextOperator(char[] remainingExpression, int position){
-       switch (remainingExpression[position])
-        {
-            case Constants.ADD:
-                return new AdditionOperator();
-            case Constants.SUBTRACT:
-                return new SubtractionOperator();
-            case Constants.MULTIPLY:
-                return new MultiplicationOperator();
-            case Constants.DIVIDE:
-                return new DivisionOperator();
-            default:
-                return null;
-        }
+    private Term getNextOperator(char[] remainingExpression, int position){
+        return new Operator(remainingExpression[position]);
     }
 
-    public boolean isCharPartOfNumber(char ch){
+    private boolean isCharPartOfNumber(char ch){
         return  ch >= Constants.ZERO &&
                 ch <= Constants.NINE;
     }
-    public boolean isCharAnOperator(char ch){
+    private boolean isCharAnOperator(char ch){
         return  ch == Constants.ADD ||
                 ch == Constants.SUBTRACT ||
                 ch == Constants.MULTIPLY ||
-                ch == Constants.DIVIDE;
+                ch == Constants.DIVIDE ||
+                ch == Constants.OPENING_BRACES ||
+                ch == Constants.CLOSING_BRACES;
     }
 }

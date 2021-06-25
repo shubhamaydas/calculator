@@ -12,15 +12,14 @@ public class Client
         String expression = scanner.nextLine();
         Calculator calculator = new Calculator();
         try {
-            System.out.println(expression);
             System.out.println("=========Output================");
             System.out.println(calculator.
                     calculate(expression));
             System.out.println("===============================");
-        }catch (IllegalArgumentException illegalArgumentException){
-            System.out.println(illegalArgumentException.getMessage());
+        }catch (ArithmeticException arithmeticException){
+            System.out.println(arithmeticException.getMessage());
         }catch (Exception exception){
-            System.out.println("Error in processing");
+           exception.printStackTrace();
         }
     }
 }

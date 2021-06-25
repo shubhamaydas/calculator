@@ -1,70 +1,77 @@
 package com.sample.calculator.service;
 
+import com.sample.calculator.constants.Constants;
+import com.sample.calculator.operator.Operand;
 import com.sample.calculator.operator.Operator;
+import com.sample.calculator.operator.Term;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Calculator {
-    public float calculate(String expression) {
+    public double calculate(String expression) {
         {
-            char[] tokens = expression.replace(" ", "")
-                    .toCharArray();
-            Stack<Float> values = new
+            Tokenizer tokenizer = new Tokenizer();
+            Stack<Operand> values = new
                     Stack<>();
             Stack<Operator> operatorStack = new
                     Stack<>();
-            Tokenizer tokenizer = new Tokenizer();
+            ArrayList<Term> tokenList = tokenizer.getArrayListOfTokens(expression);
+            for (Term token:
+                 tokenList) {
+                if (token instanceof Operand) {
+                    values.push(((Operand) token));
+                } else if(token instanceof Operator){
+                    Operator currentOperator = (Operator) token;
+                    if (currentOperator.getType() == Constants.OPENING_BRACES) {
+                        operatorStack.push((Operator) token);
+                    } else if (currentOperator.getType() == Constants.CLOSING_BRACES) {
+                        while (!operatorStack.empty() && operatorStack.peek().getType() != Constants.OPENING_BRACES) {
+                            values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
+                        }
+                        operatorStack.pop();
+                    } else {
 
-            for (int position = 0; position < tokens.length; position++)
-            {
-                if(tokenizer.isCharPartOfNumber(tokens[position]))
-                {
-                    position = getNumberAndPushToValueQueue(tokens, values, tokenizer, position);
-                }
+                        while (!operatorStack.empty() && currentOperator.comparePrecedence(operatorStack.peek()) <= 0) {
+                            values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
+                        }
 
-                else if (tokenizer.isCharAnOperator(tokens[position]))
-                {
-                    processOperatorQueue(tokens, values, operatorStack, tokenizer, position);
-                }
-
-                else {
-                    throw new IllegalArgumentException("Invalid input string");
+                        operatorStack.push((Operator) token);
+                    }
                 }
             }
 
-            while (!operatorStack.empty()){
+            while (!operatorStack.empty()) {
                 values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
             }
 
-            return values.pop();
+            return values.pop().getValue();
         }
     }
 
-    private int getNumberAndPushToValueQueue(char[] tokens, Stack<Float> values, Tokenizer tokenizer, int position) {
-        String result = tokenizer.getNextFloatNumber(tokens, position);
-        values.push(Float.parseFloat(result));
-        position = position + result.length() - 1;
-        return position;
-    }
 
-    private void processOperatorQueue(char[] tokens, Stack<Float> values, Stack<Operator> operatorStack, Tokenizer tokenizer, int position) {
-        Operator currentOperator = tokenizer.getNextOperator(tokens, position);
-        while (!operatorStack.empty() && hasPrecedence(currentOperator, operatorStack.peek())) {
-            values.push(compute(operatorStack.pop(), values.pop(), values.pop()));
+    private Operand compute(Term term, Operand firstOperand, Operand secondOperand) {
+        Operator operator = (Operator) term;
+        Operand operand = null;
+        switch ((operator.getType())) {
+            case Constants.ADD:
+                operand = new Operand(firstOperand.getValue() + secondOperand.getValue());
+                break;
+            case Constants.SUBTRACT:
+                operand = new Operand(secondOperand.getValue() - firstOperand.getValue());
+                break;
+            case Constants.MULTIPLY:
+                operand = new Operand(firstOperand.getValue() * secondOperand.getValue());
+                break;
+            case Constants.DIVIDE:
+                if(firstOperand.getValue()==0){
+                    throw new ArithmeticException("Divisor can't be zero");
+                }
+                operand = new Operand(secondOperand.getValue() / firstOperand.getValue());
         }
-
-        operatorStack.push(currentOperator);
+        return operand;
     }
-
-    private float compute(Operator operator, float firstOperand, float secondOperand){
-        return operator.operate(secondOperand, firstOperand);
-    }
-    private boolean hasPrecedence(Operator currentOperator , Operator operatorInStack){
-        if(currentOperator.getPrecedence() == 1 && operatorInStack.getPrecedence() == 2)
-            return false;
-        return true;
-    }
-
 }
+
 
 
